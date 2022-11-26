@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--This is the meta information which is good for SEO-->
+    {% block head-meta %}
+        <meta charset="UTF-8">
+        <meta name="keywords" content="Inventory Tracker Manages Your
+        Kitchen's Inventory Needs">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       <title>Purchase List</title>
+    {% endblock %}
+</head>
+<body>
+{% block title %}Inventory Tracker{% endblock %}
+{% block content %}
+    <section class="home">
+        <section>
+            <h2>Ingredients</h2>
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Unit Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for ingredient in ingredients %}
+                    <tr>
+                        <td>{{ ingredient.name }}</td>
+                        <td>{{ ingredient.quantity }}</td>
+                        <td>{{ ingredient.unit }}</td>
+                        <td class="price">${{ ingredient.unit_price|stringformat:".2f" }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <hr/>
+
+        <section>
+            <h2>Purchases</h2>
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Menu Item</th>
+                        <th>Price</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for purchase in purchases %}
+                    <tr>
+                        <td>{{ purchase.menu_item.name }}</td>
+                        <td class="price">${{ purchase.menu_item.price|stringformat:".2f" }}</td>
+                        <td>{{ purchase.timestamp }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <hr/>
+
+        <section>
+            <h2>Menu</h2>
+            <ul class="menu-items">
+            {% for menu_item in menu_items %}
+                <li>
+                    <div class="menu-item-header">
+                        <div class="menu-item-title">{{ menu_item.name }}</div>
+                        <div class="menu-item-price">${{ menu_item.price|stringformat:".2f" }}</div>
+                    </div>
+                    <ul class="menu-item-ingredients">
+                        {% for recipe_requirement in menu_item.reciperequirement_set.all %}
+                        <li>{{ recipe_requirement.quantity }} {{recipe_requirement.ingredient.unit }} {{ recipe_requirement.ingredient.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+    </section>
+{% endblock %}
+</body>
+</html>

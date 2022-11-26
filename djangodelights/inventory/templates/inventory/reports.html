@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--This is the meta information which is good for SEO-->
+    {% block head-meta %}
+        <meta charset="UTF-8">
+        <meta name="keywords" content="Inventory Tracker Manages Your
+        Kitchen's Inventory Needs">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       <title>Purchase List</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <h2>Purchases</h2>
+    <table class="inventory-table">
+        <thead>
+            <tr>
+                <th>Menu Item</th>
+                <th>Price</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for purchase in purchases %}
+            <tr>
+                <td>{{ purchase.menu_item.name }}</td>
+                <td class="price">${{ purchase.menu_item.price|stringformat:".2f" }}</td>
+                <td>{{ purchase.timestamp }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    <hr/>
+    <h2>Totals</h2>
+    <section style="color: blue;">Gross Revenue: ${{ revenue|stringformat:".2f" }}</section>
+    <section
+            style="color: red;">Cost of Goods Sold: ${{ total_cost|stringformat:".2f" }}
+    </section>
+    <section
+            style="color: green;">Gross Profit: ${{ profit|stringformat:".2f" }}
+    </section>
+    <h2>Ratios</h2>
+    <section
+            style="color: black;">Gross Profit Margin: {{ gross_profit|stringformat:".2f" }}%
+    </section>
+    <section
+            style="color: black;">Gross Margin Ratio: {{ gross_margin_ratio|stringformat:".2f" }}%
+    </section>
+{% endblock %}
+</body>
+</html>

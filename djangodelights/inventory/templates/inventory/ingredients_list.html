@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--This is the meta information which is good for SEO-->
+    {% block head-meta %}
+        <meta charset="UTF-8">
+        <meta name="keywords" content="Inventory Tracker Manages Your
+        Kitchen's Inventory Needs">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       <title>Purchase List</title>
+    {% endblock %}
+{% block title %}Inventory Tracker{% endblock %}
+</head>
+<body>
+{% block content %}
+    <h2>Ingredients</h2>
+    <hr/>
+    <center>
+        <a href="{% url "add_ingredient" %}" style="display:
+     inherit; text-align: center; border-radius: 15px; text-decoration: none;
+     color: inherit; padding: 4px; background-color: lightblue;">➕</a>
+    </center>
+    <table class="inventory-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Unit Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ingredient in object_list %}
+            <tr>
+                <td>
+                    <a href="{% url "update_ingredient" ingredient.id %}">{{ ingredient.name }}</a>
+                </td>
+                <td>{{ ingredient.quantity }}</td>
+                <td>{{ ingredient.unit }}</td>
+                <td class="price">${{ ingredient.unit_price|stringformat:".2f" }}</td>
+                <td><a href="{% url "delete_ingredient" ingredient.id %}"
+                       style="text-decoration: none; color: inherit;">❌</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+</body>
+</html>
